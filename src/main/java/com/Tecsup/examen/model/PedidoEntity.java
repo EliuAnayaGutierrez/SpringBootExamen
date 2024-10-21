@@ -1,5 +1,6 @@
 package com.Tecsup.examen.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,13 +8,17 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name="pedido")
 public class PedidoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="descripcion",length=100)
     private String descripcion;
-    @Column(name="estado")
-    private int estado;
+    private String estado;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="persona_id",referencedColumnName = "id", nullable = false)
+    private PersonaEntity persona;
 }

@@ -1,23 +1,37 @@
 package com.Tecsup.examen.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
+@Table(name="persona")
 @Setter
 @Getter
 public class PersonaEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long nroDocumento;
-    @Column(name="nombres",length = 100,nullable = false)
+
     private String nombres;
-    @Column(name="apellidos",length = 100,nullable = false)
+
     private String apellidos;
-    @Column(name="estado",nullable = false)
-    private int estado;
+
+    private String estado;
+
+
+    @OneToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
+    @JoinColumn(name="direccion_id",referencedColumnName="id")
+    private DireccionEntity direccionEntity;
+
+    @JsonManagedReference
+    @OneToMany
+    private List<PedidoEntity>pedidos;
+
 
     @Override
     public String toString() {
@@ -26,6 +40,7 @@ public class PersonaEntity {
                 ", nombres='" + nombres + '\'' +
                 ", apellidos='" + apellidos + '\'' +
                 ", estado=" + estado +
+                ", direccionEntity=" + direccionEntity +
                 '}';
     }
 }

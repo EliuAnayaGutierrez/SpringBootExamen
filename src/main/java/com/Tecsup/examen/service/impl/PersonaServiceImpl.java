@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 @Service
 public class PersonaServiceImpl implements IPersonaService {
 
-
     private final IPersonaRepository personaRepository;
 
     public PersonaServiceImpl(IPersonaRepository personaRepository) {
@@ -21,7 +20,7 @@ public class PersonaServiceImpl implements IPersonaService {
 
     @Override
     public PersonaEntity savePersona(PersonaEntity personaEntity) {
-        personaEntity.setEstado(1);
+        personaEntity.setEstado("Activo");
         return personaRepository.save(personaEntity);
     }
 
@@ -33,7 +32,7 @@ public class PersonaServiceImpl implements IPersonaService {
 
     @Override
     public List<PersonaEntity> obtenerTodasLasPersonas() {
-        return personaRepository.findAllByEstado(1);
+        return personaRepository.findAll();
     }
 
     @Override
@@ -41,13 +40,14 @@ public class PersonaServiceImpl implements IPersonaService {
         PersonaEntity personaExistente=obtenerPersonaPorId(id);
         personaExistente.setNombres(personaEntity.getNombres());
         personaExistente.setApellidos(personaEntity.getApellidos());
+        personaExistente.setDireccionEntity(personaEntity.getDireccionEntity());
         return personaRepository.save(personaExistente);
     }
 
     @Override
     public void eliminarPersona(Long id) {
         PersonaEntity personaExistente=obtenerPersonaPorId(id);
-        personaExistente.setEstado(0);
+        personaExistente.setEstado("Inactivo");
         personaRepository.save(personaExistente);
     }
 }

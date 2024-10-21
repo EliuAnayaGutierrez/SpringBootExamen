@@ -7,19 +7,22 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "direccion")
 public class DireccionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="avenida",length=100)
     private String avenida;
-    @Column(name="numero",length=10)
-    private String numero;
-    @Column(name="distrito",length=100)
+
+    /*private String numero;
+
     private String distrito;
-    @Column(name="provincia",length=100)
+
     private String provincia;
-    @Column(name="departamento",length=100)
-    private String departamento;
+    private String departamento;*/
+
+    @OneToOne
+    @JoinColumn(name = "persona_id",referencedColumnName = "id")
+    private PersonaEntity persona;
 }
